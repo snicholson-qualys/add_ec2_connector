@@ -2,9 +2,11 @@
 Info : Python File adds the AWS EC2 connector into Qualys Asset View Connectors w.r.t details provided in "./AWS_EC2_CONNECTOR_INFO.csv" & "./config.txt".
 Console output as well as debug_file.txt will have both success & failure logs.
 
-#AWS_EC2_CONNECTOR_INFO.csv:
+# AWS_EC2_CONNECTOR_INFO.csv:
+
 Info : csv files contains below attributes required for AWS connector
 Script looks for AWS_CONNECTOR_INFO.csv in the directory the script runs from
+
 > ARN,NAME,EXTID,REGION,MODULE
 
 *EXTID must be an INT from 9-90 in length* Example: 98765456787654567821
@@ -13,13 +15,16 @@ Script looks for AWS_CONNECTOR_INFO.csv in the directory the script runs from
 Currently only ALL and single specified region work. Additonal support for multiple regions is being worked.
 *Examples*
 > ALL
+
 > us-east-1
 
 
 *MODULES must be an list of modules to activate for connector*
 *Examples:*
 > VM
+
 > "VM PC"
+
 > "VM PC SCA"
 
 #Script configuration
