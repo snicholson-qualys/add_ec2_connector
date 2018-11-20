@@ -1,0 +1,3 @@
+ARN,NAME,EXTID,REGION,MODULE
+arn:aws:iam::123456789012:role/ExampleRoleName,example_connector1,123456789123,ALL,VM PC
+arn:aws:iam::123456789013:role/ExampleRoleName,example_connector2,123456789124,us-east-1,VM PC
