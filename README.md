@@ -13,6 +13,7 @@ Script looks for AWS_CONNECTOR_INFO.csv in the directory the script runs from
 
 *REGION must be single spaced list of regions or "ALL"*
 Currently only ALL and single specified region work. Additonal support for multiple regions is being worked.
+
 *Examples*
 > ALL
 
@@ -20,6 +21,7 @@ Currently only ALL and single specified region work. Additonal support for multi
 
 
 *MODULES must be an list of modules to activate for connector*
+
 *Examples:*
 > VM
 
@@ -36,7 +38,7 @@ Provide script configuration information for API U/P, vulnerability severity rat
   apiURL: "Qualys API URL base (https:// - > .com/, no trailing '/') for your pod"
   Examples:
   >https://qualysapi.qualys.com
-  
+
   >https://qualysapi.qg2.apps.qualys.com
 
 
