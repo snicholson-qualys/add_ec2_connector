@@ -2,7 +2,7 @@
 Info : Python File adds the AWS EC2 connector into Qualys Asset View Connectors w.r.t details provided in "./AWS_EC2_CONNECTOR_INFO.csv" & "./config.txt".
 Console output as well as debug_file.txt will have both success & failure logs.
 
-# AWS_EC2_CONNECTOR_INFO.csv:
+# AWS_EC2_CONNECTOR_INFO.csv
 
 Info : csv files contains below attributes required for AWS connector
 Script looks for AWS_CONNECTOR_INFO.csv in the directory the script runs from
