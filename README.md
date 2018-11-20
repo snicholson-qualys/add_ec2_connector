@@ -27,7 +27,7 @@ Currently only ALL and single specified region work. Additonal support for multi
 
 > "VM PC SCA"
 
-#Script configuration
+# Script configuration
 *config.yml*
 Provide script configuration information for API U/P, vulnerability severity ratings, and Qualys API URL
   username: "QualysUsername"
@@ -36,10 +36,11 @@ Provide script configuration information for API U/P, vulnerability severity rat
   apiURL: "Qualys API URL base (https:// - > .com/, no trailing '/') for your pod"
   Examples:
   >https://qualysapi.qualys.com
+  
   >https://qualysapi.qg2.apps.qualys.com
 
 
-#Script Requirements
+# Script Requirements
 This script is written in Python 2.7.x (X > 10)
 This script requires the following PIP modules to run
 Modules: sys, requests, datetime, os, time, yaml, json, csv, base64
@@ -53,5 +54,5 @@ MAC/Linux "pip install pyyaml"
 Windows "python -m pip install pyyaml"
 
 
-#Debug
+# Debug
 Debug file for script run, located in ./debug folder with time/date stamp per line. To disable debug, comment out all lines containing "debug"
