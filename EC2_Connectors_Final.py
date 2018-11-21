@@ -80,15 +80,12 @@ def Add_AWS_EC2_Connector():
         activate_region = ""
         for m in module_list:
             activate_module += "<ActivationModule>{0}</ActivationModule>".format(str(m))
-        debug_file.write('---' + 'MODULE : ' + str(MODULE) + '\n')
 
         if i['REGION'] != "ALL":
             region_list = i['REGION'].split()
             for r in region_list:
-                activate_region += "<regionCode>{0}</regionCode>".format(str(r))
-            debug_file.write('---' + 'REGION : ' + str(REGION) + '\n')
-            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><endpoints><add><AwsEndpointSimple>{3}</AwsEndpointSimple></add></endpoints><disabled>false</disabled><activation><set>{4}</set></activation></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],i['REGION'],activate_module)
-
+                activate_region += "<AwsEndpointSimple><regionCode>{0}</regionCode></AwsEndpointSimple>".format(str(r))
+            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><endpoints><add>{3}</add></endpoints><disabled>false</disabled><activation><set>{4}</set></activation></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_region,activate_module)
         else:
             xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><disabled>false</disabled><allRegions>true</allRegions><activation><set>{3}</set></activation></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_module)
 
