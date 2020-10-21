@@ -43,20 +43,13 @@ Provide script configuration information for API U/P, vulnerability severity rat
 
   >https://qualysapi.qg2.apps.qualys.com
 
+  Boolean create CloudView connector at the same time
+  cloudview: true / false
 
 # Script Requirements
-This script is written in Python 2.7.x (X > 10)
+This script is written in Python 3.7.4
 This script requires the following PIP modules to run
-Modules: sys, requests, datetime, os, time, yaml, json, csv, base64
-
-Example Python module install
-MAC/Linux "pip install requests"
-Windows "python -m pip install requests"
-
-Example Python yaml module install
-MAC/Linux "pip install pyyaml"
-Windows "python -m pip install pyyaml"
-
+Modules: sys, requests, datetime, os, time, yaml, json, csv, base64\
 
 # Debug
 Debug file for script run, located in ./debug folder with time/date stamp per line. To disable debug, comment out all lines containing "debug"
