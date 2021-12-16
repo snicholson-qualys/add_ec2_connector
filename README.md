@@ -31,6 +31,16 @@ Script looks for AWS_CONNECTOR_INFO.csv in the directory the script runs from
 
 > "VM PC SCA"
 
+*To assign tags to the connectors, add Qualys Tag IDs to the CSV*
+*TAG is a list of Qualys Tag IDs*
+
+*Examples:*
+> 000001
+
+> 000001 000002 000003
+
+*To not assign tags to connectors, uncomment line 106 and 109, and comment lines 107 and 110*
+
 # Script configuration
 *config.yml*
 Provide script configuration information for API U/P, vulnerability severity ratings, and Qualys API URL

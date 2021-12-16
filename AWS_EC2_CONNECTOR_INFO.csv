@@ -1,3 +1,2 @@
-ARN,NAME,EXTID,REGION,MODULE
-arn:aws:iam::123456789012:role/ExampleRoleName,example_connector1,123456789123,ALL,VM PC
-arn:aws:iam::123456789013:role/ExampleRoleName,example_connector2,123456789124,us-east-1,VM PC
+ARN,NAME,EXTID,REGION,MODULE,TAG
+arn:aws:iam::123456789012:role/CF-ExampleRole,accountName,123456789012,ALL,VM PC,000001 000002

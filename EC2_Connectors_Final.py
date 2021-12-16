@@ -2,9 +2,9 @@
 #
 # Author: Sean Nicholson
 # Purpose: Automate the adding of EC2 connectors via the Qualys API
-# version: 1.0.0
+# version: 1.0.1
 # date: 11.20.2018
-#
+# date: 11.23.2021
 #
 #
 
@@ -28,14 +28,22 @@ def Post_Call(username,password,URL,data_connector):
     usrPassBytes = bytes(usrPass, "utf-8")
     b64Val = base64.b64encode(usrPassBytes).decode("utf-8")
     headers = {
-        'Accept': '*/*',
+        'Accept': 'application/json',
         'content-type': 'text/xml',
-        'X-Requested-With': 'curl',
+        'X-Requested-With': 'Python Requests',
         'Authorization': "Basic %s" % b64Val
 
     }
 
     r = requests.post(URL, data=data_connector, headers=headers)
+    print("Requests Status Message = {}".format(r.status_code))
+    print("Requests Response Text = {}".format(r.text))
+    response = json.loads(r.text)
+    if response['ServiceResponse']['responseCode'] == "SUCCESS":
+        print("Connector Creation Call Successful")
+    else:
+        print("Connecotr Creation Error \n responseCode \n {} \n ResponseErrorDetails \n {} \n".format(str(response['ServiceResponse']['responseCode']), str(response['ServiceResponse']['responseErrorDetails'])))
+
     return r.raise_for_status()
 
 
@@ -62,6 +70,7 @@ def Add_AWS_EC2_Connector():
         NAME = i['NAME']
         MODULE = i['MODULE']
         REGION = i['REGION']
+
         print (str(counter) + ' : AWS Connector')
         debug_file.write(str(counter) + ' : AWS Connector' + '\n')
         print ('---' + 'ARN : ' + str(ARN))
@@ -70,30 +79,39 @@ def Add_AWS_EC2_Connector():
         print ('---' + 'NAME : ' + str(NAME))
         print ('---' + 'REGION : ' + str(REGION))
         print ('---' + 'MODULE : ' + str(MODULE))
+        print ('---' + 'MODULE : ' + str(i['TAG']))
         debug_file.write('---' + 'ARN : ' + str(ARN) + '\n')
         debug_file.write('---' + 'EXT : ' + str(EXT) + '\n')
         debug_file.write('---' + 'NAME : ' + str(NAME) + '\n')
         debug_file.write('---' + 'REGION : ' + str(REGION) + '\n')
         debug_file.write('---' + 'MODULE : ' + str(MODULE) + '\n')
+        debug_file.write('---' + 'MODULE : ' + str(i['TAG']) + '\n')
 
         module_list = i['MODULE'].split()
+        tag_list = i['TAG'].split()
+        debug_file.write('---' + 'MODULE : ' + str(tag_list) + '\n')
+        tagIdsList = ""
         activate_module = ""
         region_list = ""
         activate_region = ""
         for m in module_list:
             activate_module += "<ActivationModule>{0}</ActivationModule>".format(str(m))
+        for t in tag_list:
+            tagIdsList += "<TagSimple><id>{0}</id></TagSimple>".format(str(t))
 
         if i['REGION'] != "ALL":
             region_list = i['REGION'].split()
             for r in region_list:
                 activate_region += "<AwsEndpointSimple><regionCode>{0}</regionCode></AwsEndpointSimple>".format(str(r))
-            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><endpoints><add>{3}</add></endpoints><disabled>false</disabled><activation><set>{4}</set></activation><useForCloudView>{5}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_region,activate_module,cloudview)
+            #xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><endpoints><add>{3}</add></endpoints><disabled>false</disabled><activation><set>{4}</set></activation><useForCloudView>{5}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_region,activate_module,cloudview)
+            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><defaultTags><set>{6}</set></defaultTags><arn>{1}</arn><externalId>{2}</externalId><endpoints><add>{3}</add></endpoints><disabled>false</disabled><activation><set>{4}</set></activation><useForCloudView>{5}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_region,activate_module,cloudview,tagIdsList)
         else:
-            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><disabled>false</disabled><allRegions>true</allRegions><activation><set>{3}</set></activation><useForCloudView>{4}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_module,cloudview)
+            #xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><arn>{1}</arn><externalId>{2}</externalId><disabled>false</disabled><allRegions>true</allRegions><activation><set>{3}</set></activation><useForCloudView>{4}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_module,cloudview)
+            xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ServiceRequest><data><AwsAssetDataConnector><name>{0}</name><defaultTags><set>{5}</set></defaultTags><arn>{1}</arn><externalId>{2}</externalId><disabled>false</disabled><allRegions>true</allRegions><activation><set>{3}</set></activation><useForCloudView>{4}</useForCloudView></AwsAssetDataConnector></data></ServiceRequest>".format(i['NAME'],i['ARN'],i['EXTID'],activate_module,cloudview,tagIdsList)
 
         try:
             Post_Call(username, password, URL, xml)
-            print (str(counter) + ' : Connector Added Successfully')
+            #print (str(counter) + ' : Connector Added Successfully')
             print ('-------------------------------------------------------------')
             debug_file.write(str(counter) + ' : Connector Added Successfully' + '\n')
 
